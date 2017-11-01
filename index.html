@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Tardi-snake</title>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            .body{
+                background-color: black
+            }
+            
+            td{
+                width: 20px;
+                height: 20px
+            }
+            .blank{
+                background-color:black;
+            }
+            
+            .snake{
+                background-color:white;
+            }
+            
+            .wall{
+                background-color:greenyellow;
+            }
+            
+            .fruit{
+                background-color: crimson;
+            }
+        </style>
+    </head>
+    
+    <body onload="run()">
+        <script>
+            //settings
+            var snakeX = 2;
+            var snakeY = 2;
+            var height = 30;
+            var width = 30;
+            var interval = 100;
+            var invcrement = 1;
+            //game variables
+            var tailX = [snakeX];
+            var tailY = [snakeY];
+            var fX;
+            var fY;
+            var running;
+            var gameOver;
+            var direction = -1;// up = 0,down = -1, left = 1, right = 2
+            var int;
+            
+            /** game on
+            */
+            function run(){
+                init();
+                int = setInterval(gameloop, interval);
+            }
+            
+            function init(){
+                createMap();
+                createSnake();
+                createFruit();
+            }
+            
+            /** 生成地图
+            */
+            function createMap(){
+                document.write("<table>");
+                for( var y = 0; y < height; y++){
+                    document.write("<tr>");
+                    for( var x = 0; x < width; x++){
+                        if( x == 0 || x == width -1 || y == 0 || y == height -1){
+                            document.write("<td class= 'wall' id= '"+ x + '-' + y +"'></td>");
+                        }else{
+                            document.write("<td class= 'wall' id= '"+ x + '-' + y +"'></td>");
+                            }
+                      }
+                    document.write("</tr>");
+                }
+                
+                document.write("</table>");
+            }
+            
+            function createSnake(){
+                set(snakeX,snakeY,"snake");
+            }
+            
+            function get(x,y){
+                return document.getElementById(x+"-"+y);
+            }
+            
+            function set(x,y,value){
+                get(x,y).setAttribute("class", value);
+            }
+            
+            function rand(min,max){
+                return Math.floor(Math.random() * (max - min)+ min);
+            }
+            
+            function getType(x,y){
+                return get(x,y).getAttribute("class");
+            }
+            function createFruit(){
+                var found = false;
+                while(!found && (length < (width - 2)*(height - 2)+1)){
+                    var fruitX = rand(1,width-1);
+                    var fruitY = rand(1,height-1);
+                    if (getType(fruitX, fruitY) == "blank")
+                        found = true;
+                }
+                set(fruitX,fruitY,"fruit");
+                fX = fruitX;
+                fY = fruitY;
+            }
+            
+        </script>
+    </body>
+</html>
